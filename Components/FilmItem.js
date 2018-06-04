@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
 	},
 	description_text: {
 		fontStyle: 'italic',
-		color: '#DDDDDD'
+		color: 'grey'
 	},
 	date_container: {
 		flex: 1,
