@@ -33,6 +33,11 @@ class Search extends Component {
 		this.searchedText = text
 	}
 
+	_displayDetailForFilm = (idFilm) => { // Data-binding? undefined is not an object (evaluating this.props.navigation) error
+		console.log('idFilm ' + idFilm)
+		this.props.navigation.navigate('FilmDetail', { idFilm: idFilm })
+	}
+
 	_loadFilms() {
 		console.log(this.searchedText);
 		if (this.searchedText.length > 0) {
@@ -54,9 +59,10 @@ class Search extends Component {
   		this.totalPages = 0
   		this.setState({
   			films: []
+  		}, () => {
+	 		console.log("Page : " + this.page + " / TotalPages : " + this.totalPages + " / Nombre de films : " + this.state.films.length)
+	   		this._loadFilms()  			
   		})
- 		console.log("Page : " + this.page + " / TotalPages : " + this.totalPages + " / Nombre de films : " + this.state.films.length)
-   		this._loadFilms()
   	} 
 
   	_displayLoading() {
@@ -70,7 +76,6 @@ class Search extends Component {
   	}
 
   	render() {
-  		console.log(this.state.isLoading)
     	return (
 			<View style={styles.main_container}>
 	  			<TextInput placeholder="Titre du film" 
@@ -81,7 +86,7 @@ class Search extends Component {
 	  			<FlatList
 	  				data={this.state.films}
 	  				keyExtractor={(item) => item.id.toString()}
-	  				renderItem={({item}) => <FilmItem film={item}/> }
+	  				renderItem={({item}) => <FilmItem film={item} displayDetailForFilm={this._displayDetailForFilm} /> }
 	  				onEndReachedThreshold={0.5}
 	  				onEndReached={() => {
 	  					if (this.state.films.length > 0 && this.page < this.totalPages) {
@@ -99,7 +104,6 @@ class Search extends Component {
 const styles = StyleSheet.create({
 	main_container: {
 		flex: 1,
-		marginTop: 20,
 	},
 	loading_container: {
 		position: 'absolute',

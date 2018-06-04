@@ -4,17 +4,18 @@ import React, { Component } from 'react';
 import { getMoviePoster } from '../API/TMDBApi';
 
 import {
-  StyleSheet,
-  Image,
-  Text,
-  View,
+	TouchableOpacity,
+	StyleSheet,
+  	Image,
+ 	Text,
+  	View,
 } from 'react-native';
 
 class FilmItem extends Component {
   render() {
-  	const film = this.props.film
+  	const { film, displayDetailForFilm } = this.props
     return (
-    	<View style={styles.container}>
+    	<TouchableOpacity style={styles.container} onPress={ () => displayDetailForFilm(film.id) }>
     		<Image style={styles.image} source={{uri: getMoviePoster(film.poster_path) }}/>
     		<View style={styles.content_container}>
     			<View style={styles.header_container}>
@@ -28,7 +29,7 @@ class FilmItem extends Component {
     				<Text style={styles.date_text}>Sorti le {film.release_date}</Text>
     			</View>
     		</View>
-    	</View>
+    	</TouchableOpacity>
     );
   }
 }

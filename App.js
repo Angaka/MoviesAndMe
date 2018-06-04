@@ -1,5 +1,5 @@
 import React from 'react';
-import Search from './Components/Search'
+import Navigation from './Navigation/Navigation'
 
 import {
   StyleSheet,
@@ -9,7 +9,7 @@ import {
 export default class App extends React.Component {
   render() {
     return (
-     <Search/>
+      <Navigation/>
 /*      <View style={styles.container}>
         <View style={[styles.square, { backgroundColor: 'red' }]}/>
         <View style={[styles.square, { backgroundColor: 'green' }]}/>
