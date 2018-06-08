@@ -1,6 +1,9 @@
 import React from 'react';
 import Navigation from './Navigation/Navigation'
 
+import { Provider } from 'react-redux'
+import Store from './Store/configureStore'
+
 import {
   StyleSheet,
   View,
@@ -9,7 +12,9 @@ import {
 export default class App extends React.Component {
   render() {
     return (
-      <Navigation/>
+      <Provider store={Store}>
+        <Navigation/>
+      </Provider>
 /*      <View style={styles.container}>
         <View style={[styles.square, { backgroundColor: 'red' }]}/>
         <View style={[styles.square, { backgroundColor: 'green' }]}/>

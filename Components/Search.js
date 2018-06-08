@@ -1,6 +1,8 @@
 'use strict';
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+
 import data from '../Helpers/filmsData';
 import FilmItem from './FilmItem';
 
@@ -10,6 +12,7 @@ import {
 	ActivityIndicator,
 	StyleSheet,
 	TextInput,
+  	Image,
 	Text,
 	View,
 	Button,
@@ -86,7 +89,9 @@ class Search extends Component {
 	  			<FlatList
 	  				data={this.state.films}
 	  				keyExtractor={(item) => item.id.toString()}
-	  				renderItem={({item}) => <FilmItem film={item} displayDetailForFilm={this._displayDetailForFilm} /> }
+	  				renderItem={({item}) => <FilmItem film={item} 
+	  												isFilmFavorite={(this.props.favoriteFilms.findIndex(film => film.id === item.id) !== -1) ? true : false} 
+	  												displayDetailForFilm={this._displayDetailForFilm} /> }
 	  				onEndReachedThreshold={0.5}
 	  				onEndReached={() => {
 	  					if (this.state.films.length > 0 && this.page < this.totalPages) {
@@ -127,5 +132,10 @@ const styles = StyleSheet.create({
 	}
 });
 
+const mapStateToProps = state => {
+	return {
+		favoriteFilms: state.favoriteFilms
+	}
+}
 
-export default Search;
+export default connect(mapStateToProps)(Search);
