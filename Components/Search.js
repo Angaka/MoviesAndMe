@@ -1,9 +1,9 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
 
 import data from '../Helpers/filmsData';
+import FilmList from './FilmList';
 import FilmItem from './FilmItem';
 
 import { getMoviesFromQuery } from '../API/TMDBApi';
@@ -15,8 +15,7 @@ import {
   	Image,
 	Text,
 	View,
-	Button,
-	FlatList
+	Button
 } from 'react-native';
 
 class Search extends Component {
@@ -30,13 +29,15 @@ class Search extends Component {
 	  		films: [],
 	  		isLoading: false
 	  	};
+
+	  	this._loadFilms = this._loadFilms.bind(this)
 	}
 
 	_searchTextInputChanged(text) {
 		this.searchedText = text
 	}
 
-	_displayDetailForFilm = (idFilm) => { // Data-binding? undefined is not an object (evaluating this.props.navigation) error
+	_displayDetailForFilm = (idFilm) => { // Data-binding Arrow Function
 		console.log('idFilm ' + idFilm)
 		this.props.navigation.navigate('FilmDetail', { idFilm: idFilm })
 	}
@@ -86,19 +87,13 @@ class Search extends Component {
 	  				onSubmitEditing={(text) => this._searchFilms()} 
 	  				style={[styles.textinput, { marginBottom: 10 }]}/>
 	  			<Button title="Rechercher" onPress={() => { this._searchFilms() }} style={styles.button}/>
-	  			<FlatList
-	  				data={this.state.films}
-	  				keyExtractor={(item) => item.id.toString()}
-	  				renderItem={({item}) => <FilmItem film={item} 
-	  												isFilmFavorite={(this.props.favoriteFilms.findIndex(film => film.id === item.id) !== -1) ? true : false} 
-	  												displayDetailForFilm={this._displayDetailForFilm} /> }
-	  				onEndReachedThreshold={0.5}
-	  				onEndReached={() => {
-	  					if (this.state.films.length > 0 && this.page < this.totalPages) {
-	  						this._loadFilms()
-	  					}
-	  					console.log('onEndReached') 
-	  				}}
+	  			<FilmList
+	  				films={this.state.films}
+	  				navigation={this.props.navigation}
+	  				loadFilms={this._loadFilms}
+	  				page={this.page}
+	  				totalPages={this.totalPages}
+	  				favoriteList={false}
 	  			/>
 	  			{this._displayLoading()}
 	  		</View>
@@ -132,10 +127,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-const mapStateToProps = state => {
-	return {
-		favoriteFilms: state.favoriteFilms
-	}
-}
-
-export default connect(mapStateToProps)(Search);
+export default Search
