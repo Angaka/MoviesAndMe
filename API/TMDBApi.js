@@ -15,6 +15,13 @@ export function getMovieDetailById(id) {
 		.catch((err) => console.log(err))
 }
 
+export function getLatestMovies(page) {
+	const url = BASE_URL + '/discover/movie?api_key=' + API_TOKEN + '&vote_count.gte=1000&sort_by=release_date.desc&language=fr&page=' + page
+	return fetch(url)
+		.then((res) => res.json())
+		.catch((err) => console.log(err))
+}
+
 export function getMoviePoster(image_url) {
 	return 'https://image.tmdb.org/t/p/w300' + image_url
 }

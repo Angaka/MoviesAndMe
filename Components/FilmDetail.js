@@ -44,11 +44,6 @@ class FilmDetail extends Component {
 		})
 	}
 
-	componentWillReceiveProps(nextProps) {
-		console.log("componentWillReceiveProps : ")
-		console.log(nextProps.favoriteFilms);
-	}
-
   	_displayLoading() {
   		if (this.state.isLoading) {
   			return(
@@ -174,7 +169,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
 	return {
-		favoriteFilms: state.favoriteFilms
+		favoriteFilms: state.toggleFavorite.favoriteFilms
 	}
 }
 
